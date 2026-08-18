@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>New Tab</title>
+    <link rel="icon" href="favicon.png?v=5" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- A quiet, local checklist for goals that deserve repeated attention. -->
+    <main>
+      <header>
+        <div>
+          <p id="date"></p>
+          <p class="greeting">Keep the long view.</p>
+        </div>
+        <time id="time" aria-label="Current time">00:00</time>
+      </header>
+
+      <section aria-labelledby="goals-heading">
+        <div class="title-row">
+          <h1 id="goals-heading">What matters<br />over time?</h1>
+          <p id="goal-count" aria-live="polite">0 active</p>
+        </div>
+
+        <form id="goal-form">
+          <label class="sr-only" for="goal-input">Add a longer-term goal</label>
+          <input
+            id="goal-input"
+            type="text"
+            maxlength="120"
+            placeholder="Add a goal worth returning to…"
+            autocomplete="off"
+            autofocus
+          />
+          <button type="submit">Add goal</button>
+        </form>
+
+        <ul id="goal-list" aria-label="Long-term goals"></ul>
+        <div id="empty-state">
+          <span aria-hidden="true"></span>
+          <p>No goals yet. Name something you want to keep moving toward.</p>
+        </div>
+      </section>
+    </main>
+
+    <template id="goal-template">
+      <li class="goal-item">
+        <div class="goal-row">
+          <label>
+            <input class="goal-check" type="checkbox" />
+            <span class="custom-check" aria-hidden="true"></span>
+            <span class="goal-text"></span>
+          </label>
+          <div class="goal-actions">
+            <button class="expand-goal" type="button" aria-expanded="false">
+              <span class="action-count"></span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+            </button>
+            <button class="delete-goal" type="button" aria-label="Delete goal">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" /></svg>
+            </button>
+          </div>
+        </div>
+        <div class="daily-panel" hidden>
+          <p>Today’s small steps</p>
+          <ul class="daily-list"></ul>
+          <form class="daily-form">
+            <label class="sr-only">Add a small daily step</label>
+            <input type="text" maxlength="100" placeholder="Add a step you can do today…" />
+            <button type="submit">Add</button>
+          </form>
+        </div>
+      </li>
+    </template>
+
+    <template id="daily-template">
+      <li>
+        <label>
+          <input type="checkbox" />
+          <span class="daily-box" aria-hidden="true"></span>
+          <span></span>
+        </label>
+        <button type="button" aria-label="Delete daily step">Remove</button>
+      </li>
+    </template>
+
+    <script src="newtab.js"></script>
+  </body>
+</html>
