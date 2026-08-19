@@ -172,10 +172,32 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 
 .goal-text {
   overflow-wrap: anywhere;
+  border-radius: 3px;
   font-size: 1rem;
   line-height: 1.45;
   transition: color 200ms;
 }
+
+.goal-text:focus-visible, .daily-list label span:last-child:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.inline-editor {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--accent);
+  border-radius: 0;
+  outline: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  caret-color: var(--accent);
+}
+
+.goal-row .inline-editor { font-size: 1rem; line-height: 1.45; }
 
 .goal-check:checked ~ .goal-text { color: #70756c; text-decoration: line-through; text-decoration-thickness: 1px; }
 
@@ -212,7 +234,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .daily-list input:checked + .daily-box { border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 3px var(--panel); }
 .daily-list input:focus-visible + .daily-box { outline: 2px solid var(--accent); outline-offset: 2px; }
 .daily-list input:checked ~ span:last-child { color: #70756c; text-decoration: line-through; }
-.daily-list label span:last-child { font-size: 0.86rem; }
+.daily-list label span:last-child { border-radius: 3px; font-size: 0.86rem; }
+.daily-list .inline-editor { font-size: 0.86rem; }
 .daily-list button { border: 0; color: #74796f; background: transparent; font: 500 0.68rem inherit; cursor: pointer; }
 .daily-list button:hover { color: #f0eee8; }
 .daily-form { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; margin-top: 0.6rem; }

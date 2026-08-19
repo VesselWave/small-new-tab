@@ -24,8 +24,8 @@ Used briefly whenever a new browser tab opens. Interaction should remain fast an
 
 ## Capabilities and Constraints
 
-- Simple checklist: add, complete, and delete goals.
-- Each goal can contain small repeatable daily steps; completion resets each calendar day.
+- Simple checklist: add, edit, complete, and delete goals.
+- Each goal can contain editable, repeatable daily steps; completion resets each calendar day.
 - Goals and steps persist in browser `localStorage`.
 - No account, cloud sync, categories, progress percentages, or due dates.
 - Chrome/Brave Manifest V3 new-tab extension built with static HTML, CSS, and JavaScript.

@@ -28,6 +28,61 @@ function saveGoals() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
 }
 
+function makeEditable(element, value, maxLength, save) {
+  element.tabIndex = 0;
+  element.title = "Double-click to edit";
+  element.setAttribute("aria-label", `${value}. Press Enter to edit`);
+
+  const startEditing = () => {
+    const editor = document.createElement("input");
+    editor.className = "inline-editor";
+    editor.type = "text";
+    editor.maxLength = maxLength;
+    editor.value = value;
+    editor.setAttribute("aria-label", `Edit ${value}`);
+
+    let finished = false;
+    const finish = (shouldSave) => {
+      if (finished) return;
+      finished = true;
+      const nextValue = editor.value.trim();
+      if (shouldSave && nextValue && nextValue !== value) {
+        save(nextValue);
+        saveGoals();
+      }
+      renderGoals();
+    };
+
+    editor.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        editor.blur();
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        finish(false);
+      }
+    });
+    editor.addEventListener("blur", () => finish(true));
+    editor.addEventListener("click", (event) => event.stopPropagation());
+
+    element.replaceWith(editor);
+    editor.focus();
+    editor.select();
+  };
+
+  element.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    startEditing();
+  });
+  element.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    event.stopPropagation();
+    startEditing();
+  });
+}
+
 function renderDailyActions(goal, dailyList) {
   dailyList.replaceChildren();
 
@@ -40,6 +95,9 @@ function renderDailyActions(goal, dailyList) {
     checkbox.checked = action.completedOn === today;
     checkbox.setAttribute("aria-label", `Mark ${action.text} ${checkbox.checked ? "not done" : "done"} today`);
     text.textContent = action.text;
+    makeEditable(text, action.text, 100, (nextText) => {
+      action.text = nextText;
+    });
     remove.setAttribute("aria-label", `Delete ${action.text}`);
 
     checkbox.addEventListener("change", () => {
@@ -78,6 +136,9 @@ function renderGoals() {
     checkbox.checked = goal.completed;
     checkbox.setAttribute("aria-label", `Mark ${goal.text} ${goal.completed ? "active" : "complete"}`);
     text.textContent = goal.text;
+    makeEditable(text, goal.text, 120, (nextText) => {
+      goal.text = nextText;
+    });
     actionCount.textContent = goal.actions.length ? `${doneToday}/${goal.actions.length} today` : "Break down";
     expand.setAttribute("aria-label", `${isExpanded ? "Hide" : "Show"} daily steps for ${goal.text}`);
     expand.setAttribute("aria-expanded", String(isExpanded));
